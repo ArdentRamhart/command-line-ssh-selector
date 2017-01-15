@@ -2,8 +2,24 @@
 
 # Simple script to show a list of ssh machines to select from
 
-# List to read from
-ssh_machine_list_path="$HOME/.ssh_machine_list"
+#defult machine list location
+default_ssh_machine_list_path="$HOME/.ssh_machine_list"
+
+# List to read from, checking for environmental variable
+if [ -z "${SSH_SELECTOR_LIST+x}" ]; then
+  ssh_machine_list_path="$default_ssh_machine_list_path"
+else
+  ssh_machine_list_path="$SSH_SELECTOR_LIST"
+fi
+
+echo "INFO: current machine list - $ssh_machine_list_path"
+
+#check for file and error out if not exsist
+if [ ! -f "$ssh_machine_list_path" ]; then
+  echo "ERROR: No Such File - $ssh_machine_list_path" 1>&2
+  exit 1
+fi
+
 
 # open List as a FD
 exec 3< "$ssh_machine_list_path"
