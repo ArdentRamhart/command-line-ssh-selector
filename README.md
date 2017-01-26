@@ -12,3 +12,8 @@ just add this file with a list of servers that you ssh into.
 
 ## How To Run
 make the script executable and run it in the command line
+
+## Arguments
+
+### -v
+Verbose Output of script
