@@ -4,6 +4,7 @@
 
 #defult machine list location
 default_ssh_machine_list_path="$HOME/.ssh_machine_list"
+verbose_output=false
 
 # List to read from, checking for environmental variable
 if [ -z "${SSH_SELECTOR_LIST+x}" ]; then
@@ -12,7 +13,21 @@ else
   ssh_machine_list_path="$SSH_SELECTOR_LIST"
 fi
 
-echo "INFO: current machine list - $ssh_machine_list_path"
+# reading Get opts
+while getopts ":v" opt; do
+  case $opt in
+    v)
+      verbose_output=true
+      ;;
+    \?)
+      echo "invalid option: -$OPTARG" >&2
+      ;;
+    esac
+done
+
+if $verbose_output; then
+  echo "INFO: current machine list - $ssh_machine_list_path"
+fi
 
 #check for file and error out if not exsist
 if [ ! -f "$ssh_machine_list_path" ]; then
